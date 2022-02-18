@@ -2,3 +2,17 @@
     text-decoration: none;
     color: white;
 }
+.section{
+     align-items: center;
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+}
+.box{
+    padding: 10px;
+    margin-bottom: 1rem;
+}
+.company{
+    display: flex;
+    flex-direction: "row";
+}
