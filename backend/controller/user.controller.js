@@ -22,6 +22,8 @@ const register = async (req, res) => {
       } catch (error) {
         console.log(error);
       }
+  }else{
+    res.status(400).json({msg:"Not Vaild Email"});
   }
 };
 const login = async (req, res) => {
