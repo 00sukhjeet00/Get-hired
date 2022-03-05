@@ -6,6 +6,8 @@ import HomeScreen from "./Screen/Home";
 import TestScreen from "./Screen/Test";
 import QuizScreen from "./Screen/Quiz";
 import QuestionScreen from "./Screen/Question";
+import CreateTestScreen from "./Screen/CreateTest";
+import DashboardScreen from "./Screen/Dashboard";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -22,9 +24,11 @@ function App() {
     return (
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/dashboard" element={<DashboardScreen/>}/>
         <Route path="/test" element={<TestScreen />} />
         <Route path="/quiz" element={<QuizScreen />} />
         <Route path="/question" element={<QuestionScreen />} />
+        <Route path="/create-test" element={<CreateTestScreen/>}/>
       </Routes>
     );
   };
@@ -110,12 +114,12 @@ function App() {
                     style={{ marginLeft: "-6.5rem" }}
                   >
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="/dashboard">
                         Dashboard
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="/create-test">
                         Create Test
                       </a>
                     </li>
