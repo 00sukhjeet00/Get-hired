@@ -16,7 +16,7 @@ const register = async (req, res) => {
           company,
         });
         user.save((err) => {
-          if (err) return res.status(400).json({msg:"User ALready Exist"});
+          if (err) return res.status(400).json({msg:"Something Went Worng"});
           return res.status(200).json({ msg: "User Register Sussecfully" });
         });
       } catch (error) {

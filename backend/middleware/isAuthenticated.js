@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken')
 const User = require('../model/user')
 const isAuthenticated = (req, res, next) => {
+    console.log(req.headers);
     const { token } = req.headers
-    jwt.verify(token, process.env.JWT_SECRET, (err, userToken) => {
+    jwt.verify(token,"Pasowrd1232", (err, userToken) => {
         if (err)
-            req.error = { msg: "Wrong Token" }
+            res.status(401).json({ msg: "Invalid User" })
         else {
             req.user = userToken
             next()
