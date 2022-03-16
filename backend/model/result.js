@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const QuizSchema = new Schema({
+const ResultSchema = new Schema({
     name: { type: String, require: true },
     code:{type:String,required:true},
     desc:{type:String},
@@ -10,4 +10,4 @@ const QuizSchema = new Schema({
     duration:{type:Number,required:true},
     startDate:{type:Date,required:true},
 })
-module.exports=Quiz=mongoose.model('quiz',QuizSchema)
+module.exports=Result=mongoose.model('result',ResultSchema)
