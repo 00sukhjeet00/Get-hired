@@ -9,5 +9,6 @@ const TestSchema = new Schema({
     sumbittedBy:{type:Schema.Types.ObjectId,ref:"user"},
     time:{type:Date,required:true},
     startDate:{type:Date,required:true},
+    total:{type:Number,required:true}
 })
 module.exports=Test=mongoose.model('test',TestSchema)

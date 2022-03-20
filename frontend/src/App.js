@@ -5,7 +5,6 @@ import RegisterScreen from "./Screen/Register";
 import HomeScreen from "./Screen/Home";
 import TestScreen from "./Screen/Test";
 import QuizScreen from "./Screen/Quiz";
-import QuestionScreen from "./Screen/Question";
 import CreateTestScreen from "./Screen/CreateTest";
 import DashboardScreen from "./Screen/Dashboard";
 
@@ -27,7 +26,6 @@ function App() {
         <Route path="/dashboard" element={<DashboardScreen/>}/>
         <Route path="/test" element={<TestScreen />} />
         <Route path="/quiz" element={<QuizScreen />} />
-        <Route path="/question" element={<QuestionScreen />} />
         <Route path="/create-test" element={<CreateTestScreen/>}/>
       </Routes>
     );
@@ -63,15 +61,6 @@ function App() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  aria-current="page"
-                  href="/question"
-                >
-                  Question
-                </a>
-              </li>
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/test">
                   Test

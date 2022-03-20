@@ -9,5 +9,6 @@ const QuizSchema = new Schema({
     sumbittedBy:{type:Schema.Types.ObjectId,ref:"user"},
     duration:{type:Number,required:true},
     startDate:{type:Date,required:true},
+    total:{type:Number,required:true}
 })
 module.exports=Quiz=mongoose.model('quiz',QuizSchema)

@@ -1,7 +1,7 @@
 const Quiz = require("../model/quiz");
 const moment=require('moment')
+const Result=require('../model/result')
 const upload = async (req, res) => {
-  console.log(req.body);
   const { name, code, desc, questions, duration, startDate } = req.body;
   const newQuiz = new Quiz({
     name,
@@ -48,5 +48,21 @@ const getQuizQuestion=async(req,res)=>{
       return res.status(201).json({msg:"NO Quiz Question"})
   })
 }
-
-module.exports = { upload, getQuiz ,getQuizQuestion};
+const checkAns=(req,res)=>{
+  const {ans,id,question_id}=req.body
+  Quiz.findById({_id:id},async(err,quiz)=>{
+    if(err) return res.status(401).json("Something Went Worng")
+    const question=quiz.find(x=>x._id===question_id)
+    const prevScore=await Result.findOne({sumbittedBy:res.user.userId})
+    if(question.ans==ans)
+    {
+      const doc=await Result.findByIdAndUpdate({sumbittedBy:res.user.userId},{socre:prevScore+1}, {new:true})
+        console.log("doc:",doc)
+    }
+    else{
+      const doc=await Result.findByIdAndUpdate({sumbittedBy:res.user.userId},{socre:prevScore-1}, {new:true})
+        console.log("doc:",doc)
+    }
+  })
+}
+module.exports = { upload, getQuiz ,getQuizQuestion,checkAns};
