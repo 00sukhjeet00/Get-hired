@@ -18,6 +18,7 @@ export default function LoginScreen() {
       );
       console.log("RES:",response.data.token)
       await localStorage.setItem('token',JSON.stringify(response.data.token))
+      await localStorage.setItem('userData',JSON.stringify(response.data.userData))
       window.location.href="/"
     } catch (error) {
       console.log(error)
