@@ -7,7 +7,7 @@ import TestScreen from "./Screen/Test";
 import QuizScreen from "./Screen/Quiz";
 import CreateTestScreen from "./Screen/CreateTest";
 import DashboardScreen from "./Screen/Dashboard";
-
+import CreateQuizScreen from './Screen/CreateQuiz';
 function App() {
   const token = localStorage.getItem("token");
   const AuthStack = () => {
@@ -27,6 +27,7 @@ function App() {
         <Route path="/test" element={<TestScreen />} />
         <Route path="/quiz" element={<QuizScreen />} />
         <Route path="/create-test" element={<CreateTestScreen/>}/>
+        <Route path="/create-quiz" element={<CreateQuizScreen/>}/>
       </Routes>
     );
   };
@@ -40,7 +41,7 @@ function App() {
               width="16"
               height="16"
               fill="currentColor"
-              class="bi bi-x-diamond-fill"
+              className="bi bi-x-diamond-fill"
               viewBox="0 0 16 16"
               style={{ marginBottom: "5px", marginRight: "5px" }}
             >
@@ -74,9 +75,9 @@ function App() {
             </ul>
             <form className="d-flex">
               {token ? (
-                <div class="dropdown">
+                <div className="dropdown">
                   <button
-                    class="btn btn-primary dropdown-toggle"
+                    className="btn btn-primary dropdown-toggle"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
@@ -87,7 +88,7 @@ function App() {
                       width="16"
                       height="16"
                       fill="currentColor"
-                      class="bi bi-person-circle"
+                      className="bi bi-person-circle"
                       viewBox="0 0 16 16"
                     >
                       <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -98,28 +99,28 @@ function App() {
                     </svg>
                   </button>
                   <ul
-                    class="dropdown-menu "
+                    className="dropdown-menu "
                     aria-labelledby="dropdownMenuButton1"
                     style={{ marginLeft: "-6.5rem" }}
                   >
                     <li>
-                      <a class="dropdown-item" href="/dashboard">
+                      <a className="dropdown-item" href="/dashboard">
                         Dashboard
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/create-test">
+                      <a className="dropdown-item" href="/create-test">
                         Create Test
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a className="dropdown-item" href="/create-quiz">
                         Create Quiz
                       </a>
                     </li>
                     <li>
                       <button
-                        class="dropdown-item text-danger"
+                        className="dropdown-item text-danger"
                         onClick={(e) => {
                           e.preventDefault()
                           localStorage.removeItem("token");

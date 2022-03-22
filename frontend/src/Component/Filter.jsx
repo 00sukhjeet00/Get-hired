@@ -27,25 +27,25 @@ export default function Filter() {
           width="16"
           height="16"
           fill="currentColor"
-          class="bi bi-filter"
+          className="bi bi-filter"
           viewBox="0 0 16 16"
         >
           <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
         </svg>
       </button> */}
-      <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-          <button class={`nav-link ${tab===0 && 'active'}`} onClick={()=>{settab(0)}}>
+      <ul className="nav nav-pills nav-fill">
+        <li className="nav-item">
+          <button className={`nav-link ${tab===0 && 'active'}`} onClick={()=>{settab(0)}}>
             Past
           </button>
         </li>
-        <li class="nav-item">
-          <button class={`nav-link ${tab===1 && 'active'}`} aria-current="page" onClick={()=>{settab(1)}}>
+        <li className="nav-item">
+          <button className={`nav-link ${tab===1 && 'active'}`} aria-current="page" onClick={()=>{settab(1)}}>
             Active
           </button>
         </li>
-        <li class="nav-item">
-          <button class={`nav-link ${tab===2 && 'active'}`} onClick={()=>{settab(2)}}>
+        <li className="nav-item">
+          <button className={`nav-link ${tab===2 && 'active'}`} onClick={()=>{settab(2)}}>
             Upcoming
           </button>
         </li>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SweetAlert from "react-bootstrap-sweetalert";
 import DateTimePicker from 'react-datetime-picker';
-export default function CreateTest(props) {
+export default function CreateQuiz(props) {
   const [showMSG, setshowMSG] = useState(false);
   return (
     <div

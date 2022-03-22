@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import CreateTest from './component/CreateTest'
+import CreateQuiz from './component/CreateQuiz'
 
 export default function CreateTestScreen() {
   const [test, settest] = useState({
@@ -51,7 +51,7 @@ export default function CreateTestScreen() {
     console.log("test:",test);
   }
   return (
-    <CreateTest
+    <CreateQuiz
       test={test}
       settest={settest}
       question={question}
