@@ -216,6 +216,56 @@ export default function CreateQuiz(props) {
               />
               <label for="floatingInput">Duration (min)</label>
             </div>
+            <div className="mb-3" style={{display:"flex",justifyContent:"space-evenly"}}>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value={"softskill"}
+                  onChange={(e) =>
+                    props.settest({ ...props.test, type: e.target.value })
+                  }
+                  checked={props.test.type === "softskill" ? true : false}
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Soft Skill
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value={"aptitude"}
+                  onChange={(e) =>
+                    props.settest({ ...props.test, type: e.target.value })
+                  }
+                  checked={props.test.type === "aptitude" ? true : false}
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Aptitude
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value={"coding"}
+                  onChange={(e) =>
+                    props.settest({ ...props.test, type: e.target.value })
+                  }
+                  checked={props.test.type === "coding" ? true : false}
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Coding
+                </label>
+              </div>
+            </div>
             <button
               className="w-100 btn btn-lg btn-primary"
               type="submit"

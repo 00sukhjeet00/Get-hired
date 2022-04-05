@@ -7,8 +7,9 @@ const TestSchema = new Schema({
     questions:{type:Array,required:true},
     author:{type:Schema.Types.ObjectId,ref:'user'},
     sumbittedBy:{type:Schema.Types.ObjectId,ref:"user"},
-    time:{type:Date,required:true},
+    duration:{type:Number,required:true},
     startDate:{type:Date,required:true},
-    total:{type:Number,required:true}
+    type:{type:String,required:true},
+    company:{type:String,required:true},
 })
 module.exports=Test=mongoose.model('test',TestSchema)

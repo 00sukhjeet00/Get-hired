@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-export default function Filter() {
-  const [tab, settab] = useState(1)
+export default function Filter(props) {
+  const {tab,setTab}=props
   return (
     <div
       style={{
@@ -18,6 +18,8 @@ export default function Filter() {
           className="form-control"
           id="search"
           placeholder="Search"
+          value={props.search}
+          onChange={e=>{props.handleSearch(e.target.value)}}
         />
         <label for="search">Search</label>
       </div>
@@ -35,17 +37,23 @@ export default function Filter() {
       </button> */}
       <ul className="nav nav-pills nav-fill">
         <li className="nav-item">
-          <button className={`nav-link ${tab===0 && 'active'}`} onClick={()=>{settab(0)}}>
+          <button className={`nav-link ${tab===0 && 'active'}`} onClick={()=>{
+            setTab(0)
+            }}>
             Past
           </button>
         </li>
         <li className="nav-item">
-          <button className={`nav-link ${tab===1 && 'active'}`} aria-current="page" onClick={()=>{settab(1)}}>
+          <button className={`nav-link ${tab===1 && 'active'}`} aria-current="page" onClick={()=>{
+            setTab(1)
+            }}>
             Active
           </button>
         </li>
         <li className="nav-item">
-          <button className={`nav-link ${tab===2 && 'active'}`} onClick={()=>{settab(2)}}>
+          <button className={`nav-link ${tab===2 && 'active'}`} onClick={()=>{
+            setTab(2)
+            }}>
             Upcoming
           </button>
         </li>

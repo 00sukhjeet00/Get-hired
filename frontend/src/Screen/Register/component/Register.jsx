@@ -48,7 +48,7 @@ export default function Register(props) {
               id="flexRadioDefault1"
               value={1}
               onChange={e=>props.setprofession(Number(e.target.value))}
-              checked={props.profession===1?true:false}
+              checked={props.profession===0?true:false}
             />
             <label className="form-check-label" for="flexRadioDefault1">
               Student
@@ -62,7 +62,7 @@ export default function Register(props) {
               id="flexRadioDefault2"
               value={2}
               onChange={e=>props.setprofession(Number(e.target.value))}
-              checked={props.profession===2?true:false}
+              checked={props.profession===1?true:false}
             />
             <label className="form-check-label" for="flexRadioDefault2">
               Professional

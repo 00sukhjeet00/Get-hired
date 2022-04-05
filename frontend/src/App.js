@@ -7,9 +7,14 @@ import TestScreen from "./Screen/Test";
 import QuizScreen from "./Screen/Quiz";
 import CreateTestScreen from "./Screen/CreateTest";
 import DashboardScreen from "./Screen/Dashboard";
-import CreateQuizScreen from './Screen/CreateQuiz';
+import CreateQuizScreen from "./Screen/CreateQuiz";
+import ExamScreen from "./Screen/Exam";
+import SeeQuestionScren from "./Screen/SeeQuestion";
+const userData = JSON.parse(localStorage.getItem("userData"));
 function App() {
+  console.log(userData);
   const token = localStorage.getItem("token");
+
   const AuthStack = () => {
     return (
       <Routes>
@@ -23,13 +28,15 @@ function App() {
     return (
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/dashboard" element={<DashboardScreen/>}/>
+        <Route path="/dashboard" element={<DashboardScreen />} />
         <Route path="/test" element={<TestScreen />} />
         <Route path="/quiz" element={<QuizScreen />} />
-        <Route path="/create-test" element={<CreateTestScreen/>}/>
-        <Route path="/create-quiz" element={<CreateQuizScreen/>}/>
+        <Route path="/create-test" element={<CreateTestScreen />} />
+        <Route path="/create-quiz" element={<CreateQuizScreen />} />
+        <Route path="/exam" element={<ExamScreen/>}/>
+        <Route path="/questions" element={<SeeQuestionScren/>}/>
       </Routes>
-    );
+    );  
   };
   return (
     <BrowserRouter>
@@ -108,23 +115,34 @@ function App() {
                         Dashboard
                       </a>
                     </li>
-                    <li>
-                      <a className="dropdown-item" href="/create-test">
-                        Create Test
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/create-quiz">
-                        Create Quiz
-                      </a>
-                    </li>
+                    {console.log(userData.profession && userData.isAdmin)}
+                    {(userData.profession && userData.isAdmin) ? (
+                      <>
+                        <li>
+                          <a className="dropdown-item" href="/create-test">
+                            Create Test
+                          </a>
+                        </li>
+                        <li>
+                          <a className="dropdown-item" href="/create-quiz">
+                            Create Quiz
+                          </a>
+                        </li>
+                      </>
+                    ) : userData.profession ? (
+                      <li>
+                        <a className="dropdown-item" href="/create-test">
+                          Create Test
+                        </a>
+                      </li>
+                    ) : null}
                     <li>
                       <button
                         className="dropdown-item text-danger"
                         onClick={(e) => {
-                          e.preventDefault()
+                          e.preventDefault();
                           localStorage.removeItem("token");
-                          window.location.href="/login"
+                          window.location.href = "/login";
                         }}
                       >
                         Log Out

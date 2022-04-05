@@ -1,4 +1,7 @@
 import React, { useRef, useState } from 'react'
+import SweetAlert from 'react-bootstrap-sweetalert'
+import { apiCall } from '../../apiCall'
+import { ENDPOINT } from '../../endPoint'
 import CreateTest from './component/CreateTest'
 
 export default function CreateTestScreen() {
@@ -14,13 +17,16 @@ export default function CreateTestScreen() {
   })
   const [question, setquestion] = useState({
     title:"",
-    ans:""
+    ans:"",
+    type:""
   })
   const [opt1, setopt1] = useState("")
   const [opt2, setopt2] = useState("")
   const [opt3, setopt3] = useState("")
   const [opt4, setopt4] = useState("")
   const questionCnt = useRef(1)
+  const [msg, setmsg] = useState('')
+  const [showMSG, setshowMSG] = useState(false)
   const addQuestion=()=>{
     let questionObj={
       title:question.title,
@@ -43,14 +49,43 @@ export default function CreateTestScreen() {
       title:"",
       ans:"",
     })
-    if(questionCnt.current<=test.add_ques)
+    if(questionCnt.current<=test.num_ques){
       questionCnt.current+=1
+    }
   }
-  const submitQuestion=()=>{
+  const submitQuestion=async()=>{
     addQuestion()
-    console.log("test:",test);
+    const params={
+      name:test.title,
+      code:test.code,
+      desc:test.desc,
+      questions:test.questions,
+      startDate:test.startDate,
+      duration:Number(test.duration)/60,
+      type:test.type
+    }
+    console.log("params:",params)
+    const res=await apiCall("POST",ENDPOINT.upload_test,params)
+    if(res.status==200)
+    {
+      setmsg(res.data.msg)
+      setshowMSG(true)
+    }
+    console.log(res)
   }
   return (
+    <>
+    {showMSG && (
+        <SweetAlert
+          success
+          onConfirm={() => {
+            setshowMSG(false);
+            window.location.href="/create-test"
+          }}
+        >
+          {msg}
+        </SweetAlert>
+      )}
     <CreateTest
       test={test}
       settest={settest}
@@ -68,5 +103,6 @@ export default function CreateTestScreen() {
       questionCnt={questionCnt}
       submitQuestion={submitQuestion}
     />
+    </>
   )
 }

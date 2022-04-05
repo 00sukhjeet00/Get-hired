@@ -1,9 +1,11 @@
 import React from "react";
 import Filter from "../../../Component/Filter";
-export default function Test() {
+import moment from "moment";
+export default function Test(props) {
+  
   return (
     <div className="container-fuild">
-      <Filter />
+      <Filter tab={props.tab} setTab={props.setTab} handleSearch={props.handleFilter} search={props.search}/>
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div
           style={{
@@ -13,49 +15,58 @@ export default function Test() {
             placeItems: "center",
           }}
         >
-          <div
-            className="card shadow"
-            style={{ width: "38rem", marginBottom: "1rem" }}
-          >
-            <h5 className="card-header">Featured</h5>
-            <div className="card-body">
-              <h5 className="card-title">Special title treatment</h5>
-              <p className="card-text">
-                With supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <a href="#" className="btn btn-primary">
-                Go somewhere
-              </a>
-            </div>
-          </div>
-
-          <div
-            className="card shadow"
-            style={{ width: "38rem", marginBottom: "1rem" }}
-          >
-            <h5 className="card-header">Featured</h5>
-            <div className="card-body">
-              <h5 className="card-title">Special title treatment</h5>
-              <p className="card-text">
-                With supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <a href="#" className="btn btn-primary">
-                Go somewhere
-              </a>
-            </div>
-          </div>
+          {props.tests.length > 0 ? (
+            props.tests.map((test) => (
+              <div
+                key={test._id}
+                className="card shadow"
+                style={{ width: "38rem", marginBottom: "1rem" }}
+              >
+                <h5 className="card-header">{test.code}</h5>
+                <div className="card-body">
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h5 className="card-title">{test.name}</h5>
+                    <p className="card-text">
+                      {moment(test.startDate).format("Do, MMM h:mm a")}
+                    </p>
+                  </div>
+                  <p className="card-text">{test.company}</p>
+                  <button
+                    className="btn btn-primary"
+                    disabled={
+                      props.tab === 2
+                        ? true
+                        : moment(test.startDate).format("YYYY-MM-DD HH:mm") >=
+                          moment(new Date()).format("YYYY-MM-DD HH:mm")
+                        ? true
+                        : false
+                    }
+                    onClick={()=>{
+                      if(moment().format("H:mm")>=moment(test.startDate).format("H:mm")&& moment().format("H:mm")<=moment(test.startDate).add(test.duration,"hour").format("H:mm"))
+                      {
+                        props.fetchQuestion(test.code)
+                      }
+                      else{
+                        props.SeeQustion(test.questions)
+                      }
+                    }}
+                  >
+                    See Questions
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h4>{props.msg}</h4>
+          )}
         </div>
+
         <div style={{ flex: "4", display: "grid", placeItems: "center" }}>
           <div className="card shadow" style={{ width: "18rem" }}>
             <div className="card-body">
               <h5 className="card-title">Filter</h5>
-              <p className="card-text">
-                <button className="btn btn-primary">Google</button>
-                <button className="btn">Abode</button>
-                <button className="btn">Deshow</button>
-              </p>
             </div>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
@@ -63,9 +74,12 @@ export default function Test() {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    value="aptitude"
                     id="defaultCheck1"
-                    checked
+                    checked={props.type==="aptitude"?true:false}
+                    onChange={e=>{
+                      props.settype(e.target.value)
+                    }}
                   />
                   <label className="form-check-label" for="defaultCheck1">
                     Aptitude
@@ -77,8 +91,12 @@ export default function Test() {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    value="softskill"
                     id="defaultCheck2"
+                    checked={props.type==="softskill"?true:false}
+                    onChange={e=>{
+                      props.settype(e.target.value)
+                    }}
                   />
                   <label className="form-check-label" for="defaultCheck2">
                     SoftSkill
@@ -90,8 +108,11 @@ export default function Test() {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    value="coding"
                     id="defaultCheck3"
+                    checked={props.type==="coding"?true:false}
+                    onChange={e=>{
+                      props.settype(e.target.value)}}
                   />
                   <label className="form-check-label" for="defaultCheck3">
                     Coding

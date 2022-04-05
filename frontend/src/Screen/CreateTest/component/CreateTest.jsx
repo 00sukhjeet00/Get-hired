@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SweetAlert from "react-bootstrap-sweetalert";
-import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from "react-datetime-picker";
 export default function CreateTest(props) {
   const [showMSG, setshowMSG] = useState(false);
   return (
@@ -190,14 +190,16 @@ export default function CreateTest(props) {
               <label for="floatingInput">Number Of Questions</label>
             </div>
             <div className="form-floating mb-3">
-              <DateTimePicker value={props.test?.startDate} onChange={e=>{
-                 props.settest({
-                  ...props.test,
-                  startDate: e,
-                });
-              }}
-              minDate={new Date()}
-              clearIcon={null}
+              <DateTimePicker
+                value={props.test?.startDate}
+                onChange={(e) => {
+                  props.settest({
+                    ...props.test,
+                    startDate: e,
+                  });
+                }}
+                minDate={new Date()}
+                clearIcon={null}
               />
             </div>
             <div className="form-floating mb-3">
@@ -216,11 +218,65 @@ export default function CreateTest(props) {
               />
               <label for="floatingInput">Duration (min)</label>
             </div>
+            <div className="mb-3" style={{display:"flex",justifyContent:"space-evenly"}}>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value={"softskill"}
+                  onChange={(e) =>
+                    props.settest({ ...props.test, type: e.target.value })
+                  }
+                  checked={props.test.type === "softskill" ? true : false}
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Soft Skill
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value={"aptitude"}
+                  onChange={(e) =>
+                    props.settest({ ...props.test, type: e.target.value })
+                  }
+                  checked={props.test.type === "aptitude" ? true : false}
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Aptitude
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  value={"coding"}
+                  onChange={(e) =>
+                    props.settest({ ...props.test, type: e.target.value })
+                  }
+                  checked={props.test.type === "coding" ? true : false}
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  Coding
+                </label>
+              </div>
+            </div>
             <button
               className="w-100 btn btn-lg btn-primary"
               type="submit"
               onClick={() => {
-                if (props.test.num_ques <= 30 && props.test.num_ques >= 1 && props.test.duration>=30)
+                if (
+                  props.test.num_ques <= 30 &&
+                  props.test.num_ques >= 1 &&
+                  props.test.duration >= 30
+                )
                   props.settest({ ...props.test, add_ques: true });
                 else setshowMSG(true);
               }}

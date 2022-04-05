@@ -1,7 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import SweetAlert from 'react-bootstrap-sweetalert'
+import { apiCall } from '../../apiCall'
+import { ENDPOINT } from '../../endPoint'
 import CreateQuiz from './component/CreateQuiz'
-
+const userData=localStorage.getItem("userData")
 export default function CreateTestScreen() {
+  useEffect(() => {
+    if(userData.isAdmin===false)
+        window.location.href="/"
+  }, [])
+  
   const [test, settest] = useState({
     title:"",
     desc:"",
@@ -14,13 +22,16 @@ export default function CreateTestScreen() {
   })
   const [question, setquestion] = useState({
     title:"",
-    ans:""
+    ans:"",
+    type:""
   })
   const [opt1, setopt1] = useState("")
   const [opt2, setopt2] = useState("")
   const [opt3, setopt3] = useState("")
   const [opt4, setopt4] = useState("")
   const questionCnt = useRef(1)
+  const [msg, setmsg] = useState('')
+  const [showMSG, setshowMSG] = useState(false)
   const addQuestion=()=>{
     let questionObj={
       title:question.title,
@@ -43,14 +54,42 @@ export default function CreateTestScreen() {
       title:"",
       ans:"",
     })
-    if(questionCnt.current<=test.add_ques)
+    if(questionCnt.current<=test.num_ques)
       questionCnt.current+=1
   }
-  const submitQuestion=()=>{
+  const submitQuestion=async()=>{
     addQuestion()
-    console.log("test:",test);
+    const params={
+      name:test.title,
+      code:test.code,
+      desc:test.desc,
+      questions:test.questions,
+      startDate:test.startDate,
+      type:test.type,
+      duration:Number(test.duration)/60
+    }
+    console.log("params:",params)
+    const res=await apiCall("POST",ENDPOINT.upload_quiz,params)
+    if(res.status==200)
+    {
+      setmsg(res.data.msg)
+      setshowMSG(true)
+    }
+    console.log(res)
   }
   return (
+    <>
+    {showMSG && (
+        <SweetAlert
+          success
+          onConfirm={() => {
+            setshowMSG(false);
+            window.location.href="/create-quiz"
+          }}
+        >
+          {msg}
+        </SweetAlert>
+      )}
     <CreateQuiz
       test={test}
       settest={settest}
@@ -68,5 +107,6 @@ export default function CreateTestScreen() {
       questionCnt={questionCnt}
       submitQuestion={submitQuestion}
     />
+    </>
   )
 }

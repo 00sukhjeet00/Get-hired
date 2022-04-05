@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const [tab, settab] = useState(0);
   return (
     <div style={{ display: "flex", height: "100%" }}>
@@ -50,7 +50,7 @@ export default function Dashboard() {
                   type="email"
                   className="form-control"
                   id="floatingInput"
-                  value={""}
+                  value={props.userData.email}
                   disabled
                   // onChange={(e) => props.setemail(e.target.value)}
                 />
@@ -61,8 +61,8 @@ export default function Dashboard() {
                   type="password"
                   className="form-control"
                   id="floatingInput"
-                  value={""}
-                  // onChange={(e) => props.setemail(e.target.value)}
+                  value={props.newPassword}
+                  onChange={(e) => props.setnewPassword(e.target.value)}
                 />
                 <label for="floatingInput">Password</label>
               </div>
@@ -71,15 +71,15 @@ export default function Dashboard() {
                   type="password"
                   className="form-control"
                   id="floatingInput"
-                  value={""}
-                  // onChange={(e) => props.setemail(e.target.value)}
+                  value={props.confirPassword}
+                  onChange={(e) => props.setconfirPassword(e.target.value)}
                 />
                 <label for="floatingInput">Conform Password</label>
               </div>
               <button
                 className="w-100 btn btn-lg btn-primary"
                 type="submit"
-                // onClick={(e) => props.handelLogin(e)}
+                onClick={(e) => props.changePassword(e)}
               >
                 Update
               </button>
