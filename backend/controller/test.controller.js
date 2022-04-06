@@ -94,25 +94,40 @@ const getTestQuestion = async (req, res) => {
   });
 };
 const checkAns = (req, res) => {
-  const { ans, id, question_id } = req.body;
+  const { ans, id, question_id,type } = req.body;
   Test.findById({ _id: id }, async (err, Test) => {
     if (err) return res.status(401).json("Something Went Worng");
-    const question = Test.find((x) => x._id === question_id);
-    const prevScore = await Result.findOne({ sumbittedBy: res.user.userId });
-    if (question.ans == ans) {
-      const doc = await Result.findByIdAndUpdate(
-        { sumbittedBy: res.user.userId },
-        { score: prevScore + 1 },
-        { new: true }
-      );
-      console.log("doc:", doc);
-    } else {
-      const doc = await Result.findByIdAndUpdate(
-        { sumbittedBy: res.user.userId },
-        { score: prevScore - 1 },
-        { new: true }
-      );
-      console.log("doc:", doc);
+    console.log(Test.questions[question_id])
+    const question = Test.questions[question_id];
+    const prevResult = await Result.findOne({ sumbittedBy: req.user.userId }).exec();
+    if(prevResult)
+    {
+      const prevScore=prevResult.score
+      if (question.ans == ans) {
+        const doc = await Result.findByIdAndUpdate(
+          { sumbittedBy: req.user.userId },
+          { score: prevScore + 1 },
+          { new: true }
+        );
+        console.log("doc:", doc);
+      } else {
+        const doc = await Result.findByIdAndUpdate(
+          { sumbittedBy: req.user.userId },
+          { score: prevScore - 1 },
+          { new: true }
+        );
+        console.log("doc:", doc);
+      }
+    }else{
+      const newResult=new Result({
+        sumbittedBy:req.user.userId,
+        score:0,
+        test:id
+      })
+      newResult.save(err=>{
+        if(err) throw err
+        return res.status(200).json({msg:"Question Submitted"})
+      })
     }
   });
 };

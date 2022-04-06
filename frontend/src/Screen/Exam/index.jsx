@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { ENDPOINT } from "../../endPoint";
+import { apiCall } from '../../apiCall'
 import Exam from "./component/Exam";
 
 export default function ExamScreen() {
@@ -21,6 +23,8 @@ export default function ExamScreen() {
       id:id,
       question_id:index,
     };
+    const res=await apiCall("POST",location.state.type==="test"?ENDPOINT.post_test_ans:ENDPOINT.post_quiz_ans,params)
+    console.log(res);
   };
   return (
     <>

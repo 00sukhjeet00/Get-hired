@@ -34,7 +34,7 @@ export default function TestScreen() {
     const res=await apiCall("POST",ENDPOINT.fetch_test_question,{code})
     console.log(res.data);
     if(res.status===200)
-      navigation('/exam',{state:{questions:res.data}})
+      navigation('/exam',{state:{questions:res.data,type:"test"}})
   }
   const handleFilter=(val)=>{
     console.log(val);

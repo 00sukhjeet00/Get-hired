@@ -7,12 +7,11 @@ export default function SeeQuestion(props) {
         style={{
           flex: 5,
           height: "90vh",
-          display: "flex",
         }}
       >
         <div style={{padding:"2rem"}}>
         {props.questions.map((ques,index)=>(
-          <button className="btn btn-primary" style={{borderRadius:"100%",marginRight:"0.5rem"}} onClick={()=>{
+          <button className="btn btn-primary" style={{borderRadius:"100%",margin:"0.5rem 1rem"}} onClick={()=>{
             props.setquestion(ques)
           }}>{index+1}</button>
         ))
