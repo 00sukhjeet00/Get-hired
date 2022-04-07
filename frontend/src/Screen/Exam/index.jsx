@@ -1,37 +1,83 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ENDPOINT } from "../../endPoint";
-import { apiCall } from '../../apiCall'
+import { apiCall } from "../../apiCall";
 import Exam from "./component/Exam";
-
+import SweetAlert from "react-bootstrap-sweetalert";
+import moment from 'moment'
 export default function ExamScreen() {
   const location = useLocation();
   const [questions, setquestions] = useState([]);
   const [index, setindex] = useState(0);
   const [isLoading, setisLoading] = useState(true);
-  const [id, setid] = useState('')
+  const [id, setid] = useState("");
   const [ans, setans] = useState("");
+  const [showMSG, setShowMSG] = useState(false);
   useEffect(() => {
-    console.log("===>", location.state.questions.question._id);
-    setid(location.state.questions.question._id)
+    console.log("===>", location.state.questions);
+    setid(location.state.questions.question._id);
     setquestions(location.state.questions.question.questions);
+    setindex(location.state.questions.question.index)
+    if(location.state.questions.question.index===location.state.questions.question.questions.length-1)
+    {
+      setShowMSG(true)
+    }
     setisLoading(false);
   }, []);
+  useEffect(() => {
+    if (
+      !(moment().format("h:mm") >= moment(questions.startDate).format("h:mm")) &&
+      !(moment().format("h:mm") <=
+        moment(questions.startDate).add(questions.duration, "hour").format("h:mm"))
+    ) {
+      window.location.href="/"
+    }
+  }, []);
+
   const handleAns = async () => {
     const params = {
-      ans:ans,
-      id:id,
-      question_id:index,
+      ans: ans,
+      id: id,
+      question_id: index,
     };
-    const res=await apiCall("POST",location.state.type==="test"?ENDPOINT.post_test_ans:ENDPOINT.post_quiz_ans,params)
-    console.log(res);
+    const res = await apiCall(
+      "POST",
+      location.state.type === "test"
+        ? ENDPOINT.post_test_ans
+        : ENDPOINT.post_quiz_ans,
+      params
+    );
+    if (res.status === 200) {
+      if (index === questions.length-1) {
+        setShowMSG(true);
+      }else{
+        setindex(index + 1);
+      }
+    }
   };
   return (
     <>
+      {showMSG && (
+        <SweetAlert
+          success
+          onConfirm={() => {
+            setShowMSG(false);
+            window.location.href = "/dashboard";
+          }}
+        >
+          {"Test Over Check Out In Result Section"}
+        </SweetAlert>
+      )}
       {isLoading ? (
         <h2>Loading...</h2>
       ) : (
-        <Exam questions={questions} index={index} handleAns={handleAns} ans={ans} setans={setans}/>
+        <Exam
+          questions={questions}
+          index={index}
+          handleAns={handleAns}
+          ans={ans}
+          setans={setans}
+        />
       )}
     </>
   );

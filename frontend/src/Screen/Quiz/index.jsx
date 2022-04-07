@@ -16,7 +16,7 @@ export default function QuizScreen() {
   }, [tab])
   console.log(tab);
   const fecthQuiz=async()=>{
-    const res=await apiCall("POST",ENDPOINT.quiz_list,{tab})
+    const res=await apiCall("POST",ENDPOINT.quiz_list,{tab,type})
     console.log(res)
     if(res.status===200)
     {
@@ -33,7 +33,7 @@ export default function QuizScreen() {
     const res=await apiCall("POST",ENDPOINT.fetch_quiz_question,{code})
     console.log(res.data);
     if(res.status===200)
-      navigation('/exam',{state:{questions:res.data}})
+      navigation('/exam',{state:{questions:res.data,type:"quiz"}})
   }
   const handleFilter=(val)=>{
     console.log(val);
@@ -60,6 +60,7 @@ export default function QuizScreen() {
     search={search}
     setsearch={setsearch}
     handleFilter={handleFilter}
+    fecthQuiz={fecthQuiz}
     />
   )
 }

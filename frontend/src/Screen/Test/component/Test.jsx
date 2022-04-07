@@ -38,15 +38,12 @@ export default function Test(props) {
                     disabled={
                       props.tab === 2
                         ? true
-                        : moment(test.startDate).format("YYYY-MM-DD HH:mm") >=
-                          moment(new Date()).format("YYYY-MM-DD HH:mm")
-                        ? true
                         : false
                     }
                     onClick={()=>{
-                      if(moment().format("H:mm")>=moment(test.startDate).format("H:mm")&& moment().format("H:mm")<=moment(test.startDate).add(test.duration,"hour").format("H:mm"))
+                      if(moment().format("h:mm")>=moment(test.startDate).format("h:mm")&& moment().format("h:mm")<=moment(test.startDate).add(test.duration,"hour").format("h:mm"))
                       {
-                        props.fetchQuestion(test.code)
+                        props.fetchQuestion(test._id)
                       }
                       else{
                         props.SeeQustion(test.questions)
@@ -126,9 +123,11 @@ export default function Test(props) {
                 className="form-control"
                 id="company"
                 placeholder="Search By Company"
+                value={props.company}
+                onChange={e=>{props.setcompany(e.target.value)}}
               />
               <div className="text-center mt-2">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={()=>{props.fecthTest()}}>
                   {"Search "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -29,7 +29,7 @@ const upload = async (req, res) => {
   }
 };
 const getTest = async (req, res) => {
-  const { tab } = req.body;
+  const { tab,type,company } = req.body;
   if (tab === 1) {
     const today = moment().startOf("day");
     Test.find(
@@ -38,6 +38,8 @@ const getTest = async (req, res) => {
           $gte: today.toDate(),
           $lte: moment(today).endOf("day").toDate(),
         },
+        type:type,
+        company:company
       },
       (err, questions) => {
         if (err) throw err;
@@ -52,6 +54,8 @@ const getTest = async (req, res) => {
         startDate: {
           $lte: prevDay.toDate(),
         },
+        type:type,
+        company:company
       },
       (err, questions) => {
         if (err) throw err;
@@ -67,6 +71,8 @@ const getTest = async (req, res) => {
         startDate: {
           $gte: nextDay.toDate(),
         },
+        type:type,
+        company:company
       },
       (err, questions) => {
         if (err) throw err;
@@ -77,9 +83,9 @@ const getTest = async (req, res) => {
   }
 };
 const getTestQuestion = async (req, res) => {
-  const { code } = req.body;
+  const { id } = req.body;
   const today = new Date();
-  Test.findOne({ code }, (err, question) => {
+  Test.findOne({ _id:id }, (err, question) => {
     if (err) throw err;
     const duration = moment(question.startDate)
       .add(question.duration, "hours")
@@ -94,35 +100,29 @@ const getTestQuestion = async (req, res) => {
   });
 };
 const checkAns = (req, res) => {
-  const { ans, id, question_id,type } = req.body;
+  const { ans, id, question_id } = req.body;
   Test.findById({ _id: id }, async (err, Test) => {
     if (err) return res.status(401).json("Something Went Worng");
-    console.log(Test.questions[question_id])
+    await Test.findOneAndUpdate({_id:id},{question_id})
     const question = Test.questions[question_id];
     const prevResult = await Result.findOne({ sumbittedBy: req.user.userId }).exec();
+    console.log(prevResult);
     if(prevResult)
     {
       const prevScore=prevResult.score
       if (question.ans == ans) {
-        const doc = await Result.findByIdAndUpdate(
-          { sumbittedBy: req.user.userId },
-          { score: prevScore + 1 },
-          { new: true }
-        );
-        console.log("doc:", doc);
+        await Result.findOneAndUpdate({sumbittedBy:req.user.userId},{score:prevScore+1})
+        return res.status(200).json({msg:"Question Compeleted"})
       } else {
-        const doc = await Result.findByIdAndUpdate(
-          { sumbittedBy: req.user.userId },
-          { score: prevScore - 1 },
-          { new: true }
-        );
-        console.log("doc:", doc);
+        await Result.findOneAndUpdate({sumbittedBy:req.user.userId},{score:prevScore-1})
+        return res.status(200).json({msg:"Question Compeleted"})
       }
     }else{
       const newResult=new Result({
         sumbittedBy:req.user.userId,
-        score:0,
-        test:id
+        score:question.ans == ans?1:-1,
+        test:id,
+        outOf:Test.questions.length
       })
       newResult.save(err=>{
         if(err) throw err

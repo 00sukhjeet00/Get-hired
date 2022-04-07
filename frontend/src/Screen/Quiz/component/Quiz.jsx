@@ -37,13 +37,10 @@ export default function Quiz(props) {
                     disabled={
                       props.tab === 2
                         ? true
-                        : moment(quiz.startDate).format("YYYY-MM-DD HH:mm") >=
-                          moment(new Date()).format("YYYY-MM-DD HH:mm")
-                        ? true
                         : false
                     }
                     onClick={()=>{
-                      if(moment().format("H:mm")>=moment(quiz.startDate).format("H:mm")&& moment().format("H:mm")<=moment(quiz.startDate).add(quiz.duration,"hour").format("H:mm"))
+                      if(moment().format("h:mm")>=moment(quiz.startDate).format("h:mm")&& moment().format("h:mm")<=moment(quiz.startDate).add(quiz.duration,"hour").format("h:mm"))
                       {
                         props.fetchQuestion(quiz.code)
                       }
@@ -120,14 +117,14 @@ export default function Quiz(props) {
               </li>
             </ul>
             <div className="card-body">
-              <input
+              {/* <input
                 type="text"
                 className="form-control"
                 id="company"
                 placeholder="Search By Company"
-              />
+              /> */}
               <div className="text-center mt-2">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={()=>props.fecthQuiz()}>
                   {"Search "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

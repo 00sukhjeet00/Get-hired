@@ -11,5 +11,6 @@ const QuizSchema = new Schema({
     startDate:{type:Date,required:true},
     type:{type:String,required:true},
     company:{type:String,required:true},
+    index:{type:Number,default:0}
 })
 module.exports=Quiz=mongoose.model('quiz',QuizSchema)
