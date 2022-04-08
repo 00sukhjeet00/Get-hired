@@ -34,13 +34,11 @@ const getTest = async (req, res) => {
     const today = moment().startOf("day");
     Test.find(
       {
+        startDate: today.toDate(),
         $or:[
           {type:type},
         ],
         $and:[
-          {startDate: {
-            $lte: today.toDate(),
-          }},
           {company:{$regex:company}}
         ]
       },
@@ -54,13 +52,11 @@ const getTest = async (req, res) => {
     const prevDay = moment().endOf("day").subtract(1, "day");
     Test.find(
       {
+        startDate: {$lte:prevDay.toDate()},
         $or:[
           {type:type},
         ],
         $and:[
-          {startDate: {
-            $lte: prevDay.toDate(),
-          }},
           {company:{$regex:company}}
         ]
       },
@@ -75,13 +71,13 @@ const getTest = async (req, res) => {
     const nextDay = today.add(1, "day");
     Test.find(
       {
+        startDate: {
+          $gte: nextDay.toDate(),
+        },
         $or:[
           {type:type},
         ],
         $and:[
-          {startDate: {
-            $lte: nextDay.toDate(),
-          }},
           {company:{$regex:company}}
         ]
       },
