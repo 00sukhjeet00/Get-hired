@@ -35,11 +35,15 @@ const getQuiz = async (req, res) => {
     const today = moment().startOf("day");
     Quiz.find(
       {
-        startDate: {
-          $gte: today.toDate(),
-          $lte: moment(today).endOf("day").toDate(),
-        },
-        type:type,
+        $or:[
+          {type:type},
+        ],
+        $and:[
+          {startDate: {
+            $lte: today.toDate(),
+          }},
+          {company:{$regex:company}}
+        ]
       },
       (err, questions) => {
         if (err) throw err;
@@ -51,10 +55,15 @@ const getQuiz = async (req, res) => {
     const prevDay = moment().endOf("day").subtract(1, "day");
     Quiz.find(
       {
-        startDate: {
-          $lte: prevDay.toDate(),
-        },
-        type:type,
+        $or:[
+          {type:type},
+        ],
+        $and:[
+          {startDate: {
+            $lte: prevDay.toDate(),
+          }},
+          {company:{$regex:company}}
+        ]
       },
       (err, questions) => {
         if (err) throw err;
@@ -67,10 +76,15 @@ const getQuiz = async (req, res) => {
     const nextDay = today.add(1, "day");
     Quiz.find(
       {
-        startDate: {
-          $gte: nextDay.toDate(),
-        },
-        type:type,
+        $or:[
+          {type:type},
+        ],
+        $and:[
+          {startDate: {
+            $lte: nextDay.toDate(),
+          }},
+          {company:{$regex:company}}
+        ]
       },
       (err, questions) => {
         if (err) throw err;

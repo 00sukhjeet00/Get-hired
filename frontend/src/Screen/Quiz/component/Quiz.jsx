@@ -31,7 +31,14 @@ export default function Quiz(props) {
                       {moment(quiz.startDate).format("Do, MMM h:mm a")}
                     </p>
                   </div>
-                  <p className="card-text">{quiz.company}</p>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <p className="card-text">{quiz.company}</p>
+                    <p className="card-text" style={{ color: "gray" }}>
+                      {quiz.type}
+                    </p>
+                  </div>
                   <button
                     className="btn btn-primary"
                     disabled={
@@ -59,7 +66,7 @@ export default function Quiz(props) {
           )}
         </div>
 
-        <div style={{ flex: "4", display: "grid", placeItems: "center" }}>
+        <div style={{ flex: "4"}}>
           <div className="card shadow" style={{ width: "18rem" }}>
             <div className="card-body">
               <h5 className="card-title">Filter</h5>

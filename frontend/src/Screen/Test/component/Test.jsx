@@ -2,10 +2,14 @@ import React from "react";
 import Filter from "../../../Component/Filter";
 import moment from "moment";
 export default function Test(props) {
-  
   return (
     <div className="container-fuild">
-      <Filter tab={props.tab} setTab={props.setTab} handleSearch={props.handleFilter} search={props.search}/>
+      <Filter
+        tab={props.tab}
+        setTab={props.setTab}
+        handleSearch={props.handleFilter}
+        search={props.search}
+      />
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div
           style={{
@@ -32,21 +36,29 @@ export default function Test(props) {
                       {moment(test.startDate).format("Do, MMM h:mm a")}
                     </p>
                   </div>
-                  <p className="card-text">{test.company}</p>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <p className="card-text">{test.company}</p>
+                    <p className="card-text" style={{ color: "gray" }}>
+                      {test.type}
+                    </p>
+                  </div>
                   <button
                     className="btn btn-primary"
-                    disabled={
-                      props.tab === 2
-                        ? true
-                        : false
-                    }
-                    onClick={()=>{
-                      if(moment().format("h:mm")>=moment(test.startDate).format("h:mm")&& moment().format("h:mm")<=moment(test.startDate).add(test.duration,"hour").format("h:mm"))
-                      {
-                        props.fetchQuestion(test._id)
-                      }
-                      else{
-                        props.SeeQustion(test.questions)
+                    disabled={props.tab === 2 ? true : false}
+                    onClick={() => {
+                      if (
+                        moment().format("h:mm") >=
+                          moment(test.startDate).format("h:mm") &&
+                        moment().format("h:mm") <=
+                          moment(test.startDate)
+                            .add(test.duration, "hour")
+                            .format("h:mm")
+                      ) {
+                        props.fetchQuestion(test._id);
+                      } else {
+                        props.SeeQustion(test.questions);
                       }
                     }}
                   >
@@ -60,7 +72,7 @@ export default function Test(props) {
           )}
         </div>
 
-        <div style={{ flex: "4", display: "grid", placeItems: "center" }}>
+        <div style={{ flex: "4" }}>
           <div className="card shadow" style={{ width: "18rem" }}>
             <div className="card-body">
               <h5 className="card-title">Filter</h5>
@@ -73,9 +85,9 @@ export default function Test(props) {
                     type="checkbox"
                     value="aptitude"
                     id="defaultCheck1"
-                    checked={props.type==="aptitude"?true:false}
-                    onChange={e=>{
-                      props.settype(e.target.value)
+                    checked={props.type === "aptitude" ? true : false}
+                    onChange={(e) => {
+                      props.settype(e.target.value);
                     }}
                   />
                   <label className="form-check-label" for="defaultCheck1">
@@ -90,9 +102,9 @@ export default function Test(props) {
                     type="checkbox"
                     value="softskill"
                     id="defaultCheck2"
-                    checked={props.type==="softskill"?true:false}
-                    onChange={e=>{
-                      props.settype(e.target.value)
+                    checked={props.type === "softskill" ? true : false}
+                    onChange={(e) => {
+                      props.settype(e.target.value);
                     }}
                   />
                   <label className="form-check-label" for="defaultCheck2">
@@ -107,9 +119,10 @@ export default function Test(props) {
                     type="checkbox"
                     value="coding"
                     id="defaultCheck3"
-                    checked={props.type==="coding"?true:false}
-                    onChange={e=>{
-                      props.settype(e.target.value)}}
+                    checked={props.type === "coding" ? true : false}
+                    onChange={(e) => {
+                      props.settype(e.target.value);
+                    }}
                   />
                   <label className="form-check-label" for="defaultCheck3">
                     Coding
@@ -124,10 +137,17 @@ export default function Test(props) {
                 id="company"
                 placeholder="Search By Company"
                 value={props.company}
-                onChange={e=>{props.setcompany(e.target.value)}}
+                onChange={(e) => {
+                  props.setcompany(e.target.value);
+                }}
               />
               <div className="text-center mt-2">
-                <button className="btn btn-primary" onClick={()=>{props.fecthTest()}}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    props.fecthTest();
+                  }}
+                >
                   {"Search "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
