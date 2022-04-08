@@ -35,7 +35,10 @@ const getQuiz = async (req, res) => {
     const today = moment().startOf("day");
     Quiz.find(
       {
-        startDate: today.toDate(),
+        startDate: {
+          $gte:today.toDate(),
+          $lte:today.endOf("day").toDate()
+        },
         $or:[
           {type:type},
         ],

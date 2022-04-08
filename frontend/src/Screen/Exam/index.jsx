@@ -17,7 +17,7 @@ export default function ExamScreen() {
     console.log("===>", location.state.questions);
     setid(location.state.questions.question._id);
     setquestions(location.state.questions.question.questions);
-    setindex(location.state.questions.question.index)
+    setindex(location.state.questions.question.index>=0?location.state.questions.question.index:0)
     if(location.state.questions.question.index===location.state.questions.question.questions.length-1)
     {
       setShowMSG(true)

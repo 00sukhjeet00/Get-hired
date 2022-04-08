@@ -34,7 +34,10 @@ const getTest = async (req, res) => {
     const today = moment().startOf("day");
     Test.find(
       {
-        startDate: today.toDate(),
+        startDate: {
+          $gte:today.toDate(),
+          $lte:today.endOf("day").toDate()
+        },
         $or:[
           {type:type},
         ],
