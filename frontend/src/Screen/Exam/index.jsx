@@ -14,7 +14,7 @@ export default function ExamScreen() {
   const [ans, setans] = useState("");
   const [showMSG, setShowMSG] = useState(false);
   useEffect(() => {
-    console.log("===>", location.state.questions);
+    // console.log("===>", location.state.questions);
     setid(location.state.questions.question._id);
     setquestions(location.state.questions.question.questions);
     setindex(location.state.questions.question.index>=0?location.state.questions.question.index:0)
