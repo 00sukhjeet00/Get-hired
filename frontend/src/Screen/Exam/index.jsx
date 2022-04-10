@@ -13,8 +13,15 @@ export default function ExamScreen() {
   const [id, setid] = useState("");
   const [ans, setans] = useState("");
   const [showMSG, setShowMSG] = useState(false);
+  const [time, settime] = useState({
+    startTime:"",
+    endTime:""
+  })
   useEffect(() => {
-    // console.log("===>", location.state.questions);
+    settime({...time,
+      startTime:moment(location.state.questions.startDate).format("h:mm"),
+      endTime:moment(location.state.questions.startDate).add(location.state.questions.duration,"hour").format("h:mm")
+    })
     setid(location.state.questions.question._id);
     setquestions(location.state.questions.question.questions);
     setindex(location.state.questions.question.index>=0?location.state.questions.question.index:0)
@@ -80,6 +87,7 @@ export default function ExamScreen() {
           handleAns={handleAns}
           ans={ans}
           setans={setans}
+          time={time}
         />
       )}
     </>
