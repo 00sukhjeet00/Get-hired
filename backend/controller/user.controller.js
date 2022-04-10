@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../model/user");
 const validator = require("validator");
+const nodemailer=require('nodemailer')
 const register = async (req, res) => {
   const { email, password, username, name, company, profession } = req.body;
   const validEmail = validator.isEmail(email);
@@ -61,4 +62,61 @@ const changePassword = async(req, res) => {
     res.status(201).json({ msg: "New Password And Confirm Password Is Not Correct" });
   }
 };
-module.exports = { login, register,changePassword };
+const forgetPassowrd=async(req,res)=>{
+  const {email}=req.body
+  const userExist=await User.findOne({email:email}).exec()
+  if(userExist)
+  {
+    const secret=userExist.password+"Pasowrd1232"
+    const token=jwt.sign({email:userExist.email,id:userExist._id},secret,{expiresIn:"15m"})
+    const link=`http://localhost:3000/reset-password/${userExist.email}/${token}`
+    console.log(link)
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'youremail@gmail.com',
+        pass: 'yourpassword'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'youremail@gmail.com',
+      to: userExist.email,
+      subject: 'Reset Password',
+      text: `Open Link to reset your password vaild till 15min ${link}`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    return res.status(200).json({msg:"Check out your email"})
+  }
+  return res.status(402).json({msg:"Not Vaild Email"})
+}
+const restPassword=async(req,res)=>{
+  const {email,token,password,passwordCon}=req.body 
+  const userExist=await User.findOne({email:email}).exec()
+  const secret=userExist.password+"Pasowrd1232"
+  try {
+    const payload=jwt.verify(token,secret)
+    if(password==passwordCon){
+    const hashedPassword=bcrypt.hashSync(password,10)
+    User.findOneAndUpdate({email:payload.email},{password:hashedPassword},(err,response)=>{
+      if(err) throw err
+      return res.status(200).json({msg:"Password Rest Successfully"})
+    })
+    
+  }else{
+    res.status(201).json({msg:"New Password and Conform Password are not correct"})
+  }
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({msg:"Not Vaild User"})
+  }
+
+}
+module.exports = { login, register,changePassword,forgetPassowrd,restPassword};

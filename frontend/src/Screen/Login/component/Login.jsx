@@ -29,6 +29,9 @@ export default function Login(props) {
           />
           <label for="floatingPassword">Password</label>
         </div>
+        <div style={{marginBottom:"10px",float:"right"}}>
+            <a href='/forgetPassword'>Forget Password?</a>
+          </div>
         <button className="w-100 btn btn-lg btn-primary" type="submit" onClick={(e)=>props.handelLogin(e)}>
           Sign in
         </button>

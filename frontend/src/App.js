@@ -10,6 +10,8 @@ import DashboardScreen from "./Screen/Dashboard";
 import CreateQuizScreen from "./Screen/CreateQuiz";
 import ExamScreen from "./Screen/Exam";
 import SeeQuestionScren from "./Screen/SeeQuestion";
+import ForgetPasswordScreen from "./Screen/ForgetPassword";
+import RestPasswordScreen from "./Screen/RestPassword";
 const userData = JSON.parse(localStorage.getItem("userData"));
 function App() {
   console.log(userData);
@@ -21,6 +23,8 @@ function App() {
         <Route path="/" element={<HomeScreen />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/forgetPassword" element={<ForgetPasswordScreen/>}/>
+        <Route path="/reset-password/:id/:token" element={<RestPasswordScreen/>}/>
       </Routes>
     );
   };
