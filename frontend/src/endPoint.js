@@ -7,5 +7,6 @@ export const ENDPOINT={
     fetch_quiz_question:"/api/quiz/question",
     fetch_test_question:"/api/test/question",
     post_test_ans:"/api/test/check",
-    post_quiz_ans:"/api/quiz/check"
+    post_quiz_ans:"/api/quiz/check",
+    result:"/api/result"
 }

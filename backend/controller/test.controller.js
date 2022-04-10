@@ -109,13 +109,13 @@ const getTestQuestion = async (req, res) => {
     } else return res.status(201).json({ msg: "NO Test Question" });
   });
 };
-const checkAns = (req, res) => {
+const checkAns = async(req, res) => {
   const { ans, id, question_id } = req.body;
+  await Test.findOneAndUpdate({_id:id},{index:question_id})
   Test.findById({ _id: id }, async (err, Test) => {
     if (err) return res.status(401).json("Something Went Worng");
-    await Test.findOneAndUpdate({_id:id},{question_id})
     const question = Test.questions[question_id];
-    const prevResult = await Result.findOne({ sumbittedBy: req.user.userId }).exec();
+    const prevResult = await Result.findOne({ sumbittedBy: req.user.userId,test:id }).exec();
     console.log(prevResult);
     if(prevResult)
     {
@@ -134,6 +134,7 @@ const checkAns = (req, res) => {
         test:id,
         outOf:Test.questions.length
       })
+      console.log(newResult);
       newResult.save(err=>{
         if(err) throw err
         return res.status(200).json({msg:"Question Submitted"})

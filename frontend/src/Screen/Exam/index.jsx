@@ -33,13 +33,16 @@ export default function ExamScreen() {
       window.location.href="/"
     }
   }, []);
-
+  console.log(location.state.type);
   const handleAns = async () => {
     const params = {
       ans: ans,
       id: id,
       question_id: index,
     };
+    console.log(location.state.type === "test"
+        ? ENDPOINT.post_test_ans
+        : ENDPOINT.post_quiz_ans,);
     const res = await apiCall(
       "POST",
       location.state.type === "test"
@@ -65,7 +68,7 @@ export default function ExamScreen() {
             window.location.href = "/dashboard";
           }}
         >
-          {"Test Over Check Out In Result Section"}
+          {"Quiz Over Check Out In Result Section"}
         </SweetAlert>
       )}
       {isLoading ? (

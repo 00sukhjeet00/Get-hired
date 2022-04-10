@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 
 export default function Dashboard(props) {
@@ -86,20 +87,74 @@ export default function Dashboard(props) {
             </div>
           </div>
         ) : (
-          <div style={{display:"flex",justifyContent:"space-evenly",flexWrap:"wrap"}}>
-          <div class="card w-50">
-            <div class="card-header">Featured</div>
-            <div class="card-body">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">
-                With supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <a href="#" class="btn btn-primary">
-                See Questions
-              </a>
-            </div>
-          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              flexWrap: "wrap",
+            }}
+          >
+            {props.results?.length > 0 ? (
+              props.results?.map((result, index) => (
+                <div
+                  key={index}
+                  className="card shadow"
+                  style={{ width: "38rem", marginBottom: "1rem" }}
+                >
+                  <div
+                    className="card-header"
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h5 className="">{result.code}</h5>
+                    <h6 style={{display:"flex"}}>
+                      <h6
+                        className={
+                          result.score > 0 ? "text-success" : "text-danger"
+                        }
+                      >
+                        {result.score}
+                      </h6>
+                      /{result?.outOf}
+                    </h6>
+                  </div>
+                  <div className="card-body">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <h5 className="card-title">{result.title}</h5>
+                      <p className="card-text">
+                        {moment(result.startDate).format("Do, MMM h:mm a")}
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <p className="card-text">{result.company}</p>
+                      <p className="card-text" style={{ color: "gray" }}>
+                        {result.type}
+                      </p>
+                    </div>
+                    {/* <button
+                      className="btn btn-primary"
+                      disabled={props.tab === 2 ? true : false}
+                      onClick={() => {
+                          props.SeeQustion(result.questions);
+                      }}
+                    >
+                      See Questions
+                    </button> */}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <h4>{props.msg}</h4>
+            )}
           </div>
         )}
       </div>

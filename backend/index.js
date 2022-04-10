@@ -5,6 +5,7 @@ const cors=require('cors')
 const userRoute = require("./route/user.router");
 const testRoute = require("./route/test.route");
 const quizRoute = require("./route/quiz.route");
+const resultRoute = require("./route/result.route");
 app.use(cors())
 app.use(express.json());
 mongoose
@@ -18,6 +19,7 @@ mongoose
 app.use("/api/user", userRoute);
 app.use("/api/test",testRoute)
 app.use("/api/quiz",quizRoute)
+app.use("/api/result",resultRoute)
 const port = 5000;
 app.listen(port, () => {
   console.log("Server Started...");

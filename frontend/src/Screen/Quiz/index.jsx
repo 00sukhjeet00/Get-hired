@@ -29,8 +29,8 @@ export default function QuizScreen() {
   const SeeQustion=(question)=>{
     navigation('/questions',{state:{question}})
   }
-  const fetchQuestion=async(code)=>{
-    const res=await apiCall("POST",ENDPOINT.fetch_quiz_question,{code})
+  const fetchQuestion=async(id)=>{
+    const res=await apiCall("POST",ENDPOINT.fetch_quiz_question,{id})
     console.log(res.data);
     if(res.status===200)
       navigation('/exam',{state:{questions:res.data,type:"quiz"}})

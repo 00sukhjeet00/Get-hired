@@ -49,7 +49,7 @@ export default function Quiz(props) {
                     onClick={()=>{
                       if(moment().format("h:mm")>=moment(quiz.startDate).format("h:mm")&& moment().format("h:mm")<=moment(quiz.startDate).add(quiz.duration,"hour").format("h:mm"))
                       {
-                        props.fetchQuestion(quiz.code)
+                        props.fetchQuestion(quiz._id)
                       }
                       else{
                         props.SeeQustion(quiz.questions)

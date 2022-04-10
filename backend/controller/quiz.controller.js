@@ -88,9 +88,11 @@ const getQuiz = async (req, res) => {
 };
 const getQuizQuestion = async (req, res) => {
   const { id } = req.body;
+  console.log(id);
   const today = new Date();
   Quiz.findOne({ _id:id }, (err, question) => {
     if (err) throw err;
+    console.log(question)
     const duration = moment(question.startDate)
       .add(question.duration, "hours")
       .toDate();
@@ -103,14 +105,14 @@ const getQuizQuestion = async (req, res) => {
     } else return res.status(201).json({ msg: "NO Quiz Question" });
   });
 };
-const checkAns = (req, res) => {
-  const { ans, id, question_id} = req.body;
+const checkAns = async(req, res) => {
+  const { ans, id, question_id } = req.body;
+  await Quiz.findOneAndUpdate({_id:id},{index:question_id})
   Quiz.findById({ _id: id }, async (err, Quiz) => {
     if (err) return res.status(401).json("Something Went Worng");
-    await Quiz.findOneAndUpdate({_id:id},{question_id})
     const question = Quiz.questions[question_id];
-    const prevResult = await Result.findOne({ sumbittedBy: req.user.userId }).exec();
-    console.log(prevResult);
+    const prevResult = await Result.findOne({ sumbittedBy: req.user.userId,quiz:id }).exec();
+    // console.log(prevResult);
     if(prevResult)
     {
       const prevScore=prevResult.score
@@ -125,9 +127,10 @@ const checkAns = (req, res) => {
       const newResult=new Result({
         sumbittedBy:req.user.userId,
         score:question.ans == ans?1:-1,
-        Quiz:id,
+        quiz:id,
         outOf:Quiz.questions.length
       })
+      console.log(newResult);
       newResult.save(err=>{
         if(err) throw err
         return res.status(200).json({msg:"Question Submitted"})
