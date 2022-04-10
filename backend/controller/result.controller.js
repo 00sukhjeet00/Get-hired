@@ -3,12 +3,10 @@ const Quiz = require("../model/quiz");
 const Result = require("../model/result");
 const getResult = async (req, res) => {
   Result.find({ sumbittedBy: req.user.userId }, (err, result) => {
-    // console.log(result);
     if (err) throw err;
-    var results = [];
     if (result) {
+      var results = [];
       result.map(async(element) => {
-        console.log(element)
         if (element.test) {
           let obj = {};
           const tests=await Test.find({ _id: element.test })
@@ -22,7 +20,7 @@ const getResult = async (req, res) => {
             results.push(obj);
           });
         }
-        if (element.quiz) {
+        else {
           const quizs=await Quiz.find({ _id: element.quiz });
           let obj = {};
           quizs.map((quiz) => {
@@ -35,9 +33,10 @@ const getResult = async (req, res) => {
             results.push(obj);
           });
         }
-          return res.status(200).json({ results })
       });
-    } else {
+      console.log(results);
+      return res.status(200).json({ results })
+    }else{
       return res.status(201).json({ msg: "No Result Found" });
     }
   });
