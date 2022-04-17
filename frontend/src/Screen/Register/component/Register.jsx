@@ -46,7 +46,7 @@ export default function Register(props) {
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
-              value={1}
+              value={0}
               onChange={e=>props.setprofession(Number(e.target.value))}
               checked={props.profession===0?true:false}
             />
@@ -60,7 +60,7 @@ export default function Register(props) {
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault2"
-              value={2}
+              value={1}
               onChange={e=>props.setprofession(Number(e.target.value))}
               checked={props.profession===1?true:false}
             />

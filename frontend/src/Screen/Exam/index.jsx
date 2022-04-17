@@ -17,10 +17,11 @@ export default function ExamScreen() {
     startTime:"",
     endTime:""
   })
+  
   useEffect(() => {
     settime({...time,
-      startTime:moment(location.state.questions.startDate).format("h:mm"),
-      endTime:moment(location.state.questions.startDate).add(location.state.questions.duration,"hour").format("h:mm")
+      startTime:moment(location.state.questions.question.startDate).format("h:mm"),
+      endTime:moment(location.state.questions.question.startDate).add(location.state.questions.question.duration,"hour").format("h:mm")
     })
     setid(location.state.questions.question._id);
     setquestions(location.state.questions.question.questions);
