@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Home() {
+  const token=localStorage.getItem("token")
+  console.log(token);
   return (
     <div className="heroic">
       <div
@@ -16,7 +18,10 @@ export default function Home() {
           Prepare With Us
         </h2>
         <p style={{color:"gray",fontSize:"13px"}}>Build your carrer with us</p>
+        {
+          token?null:
         <Link to="/register"><button className="btn btn-primary">Get Started</button></Link>
+        }
       </div>
     </div>
   );

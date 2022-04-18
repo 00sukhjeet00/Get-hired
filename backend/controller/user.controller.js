@@ -71,28 +71,28 @@ const forgetPassowrd=async(req,res)=>{
     const token=jwt.sign({email:userExist.email,id:userExist._id},secret,{expiresIn:"15m"})
     const link=`http://localhost:3000/reset-password/${userExist.email}/${token}`
     console.log(link)
-    // var transporter = nodemailer.createTransport({
-    //   service: 'gmail',
-    //   auth: {
-    //     user: 'youremail@gmail.com',
-    //     pass: 'yourpassword'
-    //   }
-    // });
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'mail@gmail.com',
+        pass: 'password'
+      }
+    });
     
-    // var mailOptions = {
-    //   from: 'youremail@gmail.com',
-    //   to: userExist.email,
-    //   subject: 'Reset Password',
-    //   text: `Open Link to reset your password vaild till 15min ${link}`
-    // };
+    var mailOptions = {
+      from: 'USer@gmail.com',
+      to: userExist.email,
+      subject: 'Reset Password',
+      text: `Open Link to reset your password vaild till 15min ${link}`
+    };
     
-    // transporter.sendMail(mailOptions, function(error, info){
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log('Email sent: ' + info.response);
-    //   }
-    // });
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
     return res.status(200).json({msg:"Check out your email"})
   }
   return res.status(402).json({msg:"Not Vaild Email"})

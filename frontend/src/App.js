@@ -12,6 +12,7 @@ import ExamScreen from "./Screen/Exam";
 import SeeQuestionScren from "./Screen/SeeQuestion";
 import ForgetPasswordScreen from "./Screen/ForgetPassword";
 import RestPasswordScreen from "./Screen/RestPassword";
+import NotAllow from "./Screen/NotAllow";
 const userData = JSON.parse(localStorage.getItem("userData"));
 function App() {
   console.log(userData);
@@ -25,6 +26,7 @@ function App() {
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/forgetPassword" element={<ForgetPasswordScreen/>}/>
         <Route path="/reset-password/:id/:token" element={<RestPasswordScreen/>}/>
+        <Route path="*" element={<NotAllow/>}/>
       </Routes>
     );
   };
