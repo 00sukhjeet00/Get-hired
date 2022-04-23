@@ -5,6 +5,7 @@ const ResultSchema = new Schema({
     quiz:{type:Schema.Types.ObjectId,ref:'quiz'},
     test:{type:Schema.Types.ObjectId,ref:'test'},
     sumbittedBy:{type:Schema.Types.ObjectId,ref:"user",required:true},
-    outOf:{type:Number,required:true}
+    outOf:{type:Number,required:true},
+    index:{type:Number,default:-1}
 })
 module.exports=Result=mongoose.model('result',ResultSchema)

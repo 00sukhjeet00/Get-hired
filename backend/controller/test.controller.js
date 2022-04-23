@@ -95,28 +95,37 @@ const getTest = async (req, res) => {
 const getTestQuestion = async (req, res) => {
   const { id } = req.body;
   const today = new Date();
-  Test.findOne({ _id:id }, (err, question) => {
+  Test.findOne({ _id:id }, async(err, question) => {
     if (err) throw err;
     const duration = moment(question.startDate)
       .add(question.duration, "hours")
       .toDate();
     if (question) {
       if (today >= question.startDate && today <= duration) {
+        const result=await Result.findOne({ sumbittedBy: req.user.userId,test:id }).exec();
+        let questions=question._doc
+        questions['index']=result?result.index:-1
+        return res.status(200).json({ question:questions });
+      } 
+      else if (today > duration) {
         return res.status(200).json({ question });
-      } else if (today > duration) {
-        return res.status(200).json({ question });
-      } else return res.status(201).json({ msg: "Test Not Started" });
+      } 
+      else return res.status(201).json({ msg: "Test Not Started" });
     } else return res.status(201).json({ msg: "NO Test Question" });
   });
 };
 const checkAns = async(req, res) => {
   const { ans, id, question_id } = req.body;
-  await Test.findOneAndUpdate({_id:id},{index:question_id})
+  
   Test.findById({ _id: id }, async (err, Test) => {
     if (err) return res.status(401).json("Something Went Worng");
     const question = Test.questions[question_id];
     const prevResult = await Result.findOne({ sumbittedBy: req.user.userId,test:id }).exec();
-    console.log(prevResult);
+    console.log(question_id);
+    await Result.findOneAndUpdate({sumbittedBy: req.user.userId,test:id},{index:question_id},{
+      new:true,
+      upsert:true
+    })
     if(prevResult)
     {
       const prevScore=prevResult.score
@@ -134,7 +143,6 @@ const checkAns = async(req, res) => {
         test:id,
         outOf:Test.questions.length
       })
-      console.log(newResult);
       newResult.save(err=>{
         if(err) throw err
         return res.status(200).json({msg:"Question Submitted"})

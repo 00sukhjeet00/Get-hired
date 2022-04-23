@@ -39,6 +39,8 @@ export default function Quiz(props) {
                       {quiz.type}
                     </p>
                   </div>
+
+                
                   <button
                     className="btn btn-primary"
                     disabled={

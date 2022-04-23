@@ -88,31 +88,37 @@ const getQuiz = async (req, res) => {
 };
 const getQuizQuestion = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
   const today = new Date();
-  Quiz.findOne({ _id:id }, (err, question) => {
+  Quiz.findOne({ _id:id }, async(err, question) => {
     if (err) throw err;
-    console.log(question)
     const duration = moment(question.startDate)
       .add(question.duration, "hours")
       .toDate();
     if (question) {
       if (today >= question.startDate && today <= duration) {
+        const result=await Result.findOne({ sumbittedBy: req.user.userId,quiz:id }).exec();
+        let questions=question._doc
+        questions['index']=result?result.index:-1
+        return res.status(200).json({ question:questions });
+      } 
+      else if (today > duration) {
         return res.status(200).json({ question });
-      } else if (today > duration) {
-        return res.status(200).json({ question });
-      } else return res.status(201).json({ msg: "Quiz Not Started" });
+      } 
+      else return res.status(201).json({ msg: "Quiz Not Started" });
     } else return res.status(201).json({ msg: "NO Quiz Question" });
   });
 };
 const checkAns = async(req, res) => {
   const { ans, id, question_id } = req.body;
-  await Quiz.findOneAndUpdate({_id:id},{index:question_id})
+  
   Quiz.findById({ _id: id }, async (err, Quiz) => {
     if (err) return res.status(401).json("Something Went Worng");
     const question = Quiz.questions[question_id];
     const prevResult = await Result.findOne({ sumbittedBy: req.user.userId,quiz:id }).exec();
-    // console.log(prevResult);
+    await Result.findOneAndUpdate({sumbittedBy: req.user.userId,quiz:id},{index:question_id},{
+      new:true,
+      upsert:true
+    })
     if(prevResult)
     {
       const prevScore=prevResult.score
@@ -130,7 +136,6 @@ const checkAns = async(req, res) => {
         quiz:id,
         outOf:Quiz.questions.length
       })
-      console.log(newResult);
       newResult.save(err=>{
         if(err) throw err
         return res.status(200).json({msg:"Question Submitted"})

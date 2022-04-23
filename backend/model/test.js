@@ -11,6 +11,5 @@ const TestSchema = new Schema({
     startDate:{type:Date,required:true},
     type:{type:String,required:true},
     company:{type:String,required:true},
-    index:{type:Number,default:-1}
 })
 module.exports=Test=mongoose.model('test',TestSchema)

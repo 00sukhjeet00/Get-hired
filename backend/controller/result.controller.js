@@ -8,6 +8,7 @@ const getResult = async (req, res) => {
     for(const element of result)
     {
       let obj = {};
+      console.log("element",element);
       if (element.test) {
         const test = await Test.findOne({ _id: element.test });
           obj.title = test.name;
@@ -19,6 +20,7 @@ const getResult = async (req, res) => {
           results.push(obj);
       } else {
         const quiz = await Quiz.findOne({ _id: element.quiz });
+        console.log(quiz);
           obj.title = quiz.name;
           (obj.code = quiz.code),
             (obj.type = quiz.type),
