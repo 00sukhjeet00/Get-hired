@@ -43,11 +43,7 @@ export default function Quiz(props) {
                 
                   <button
                     className="btn btn-primary"
-                    disabled={
-                      props.tab === 2
-                        ? true
-                        : false
-                    }
+                    disabled={props.tab === 2 ? true :(props.tab==1&& moment()<moment(quiz.startDate))?true:false}
                     onClick={()=>{
                       if(moment().format("h:mm")>=moment(quiz.startDate).format("h:mm")&& moment().format("h:mm")<=moment(quiz.startDate).add(quiz.duration,"hour").format("h:mm"))
                       {

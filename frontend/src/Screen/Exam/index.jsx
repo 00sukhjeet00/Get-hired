@@ -59,6 +59,7 @@ export default function ExamScreen() {
       params
     );
     if (res.status === 200) {
+      setans("")
       if (index === questions.length-1) {
         setShowMSG(true);
       }else{
@@ -76,7 +77,7 @@ export default function ExamScreen() {
             window.location.href = "/dashboard";
           }}
         >
-          {"Quiz Over Check Out In Result Section"}
+          {"Exam Over Check Out In Result Section"}
         </SweetAlert>
       )}
       {isLoading ? (

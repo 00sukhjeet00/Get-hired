@@ -122,18 +122,14 @@ const checkAns = async(req, res) => {
     const question = Test.questions[question_id];
     const prevResult = await Result.findOne({ sumbittedBy: req.user.userId,test:id }).exec();
     console.log(question_id);
-    await Result.findOneAndUpdate({sumbittedBy: req.user.userId,test:id},{index:question_id},{
-      new:true,
-      upsert:true
-    })
     if(prevResult)
     {
       const prevScore=prevResult.score
       if (question.ans == ans) {
-        await Result.findOneAndUpdate({sumbittedBy:req.user.userId},{score:prevScore+1})
+        await Result.findOneAndUpdate({sumbittedBy:req.user.userId,test:id},{score:prevScore+1,index:question_id})
         return res.status(200).json({msg:"Question Compeleted"})
       } else {
-        await Result.findOneAndUpdate({sumbittedBy:req.user.userId},{score:prevScore-1})
+        await Result.findOneAndUpdate({sumbittedBy:req.user.userId,test:id},{score:prevScore-1,index:question_id})
         return res.status(200).json({msg:"Question Compeleted"})
       }
     }else{
@@ -141,7 +137,8 @@ const checkAns = async(req, res) => {
         sumbittedBy:req.user.userId,
         score:question.ans == ans?1:-1,
         test:id,
-        outOf:Test.questions.length
+        outOf:Test.questions.length,
+        index:question_id
       })
       newResult.save(err=>{
         if(err) throw err

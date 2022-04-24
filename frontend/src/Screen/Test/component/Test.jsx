@@ -44,9 +44,10 @@ export default function Test(props) {
                       {test.type}
                     </p>
                   </div>
+                  {console.log("===>",props.tab)}
                   <button
                     className="btn btn-primary"
-                    disabled={props.tab === 2 ? true : false}
+                    disabled={props.tab === 2 ? true :(props.tab==1&& moment()<moment(test.startDate))?true:false}
                     onClick={() => {
                       if (
                         moment().format("h:mm") >=
