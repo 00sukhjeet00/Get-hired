@@ -9,6 +9,7 @@ export default function Test(props) {
         setTab={props.setTab}
         handleSearch={props.handleFilter}
         search={props.search}
+        placeHolder={"Search Test"}
       />
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div

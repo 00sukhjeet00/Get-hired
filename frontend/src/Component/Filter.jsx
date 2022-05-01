@@ -17,11 +17,11 @@ export default function Filter(props) {
           type="text"
           className="form-control"
           id="search"
-          placeholder="Search"
+          placeholder={props.placeHolder}
           value={props.search}
           onChange={e=>{props.handleSearch(e.target.value)}}
         />
-        <label for="search">Search</label>
+        <label for="search">{props.placeHolder}</label>
       </div>
       {/* <button className="btn btn-dark" style={{height:"2.5rem",marginBottom:"1rem" ,marginLeft:"1rem"}}>
         <svg

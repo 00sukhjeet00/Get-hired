@@ -4,7 +4,7 @@ import moment from 'moment'
 export default function Quiz(props) {
   return (
     <div className="container-fuild">
-      <Filter tab={props.tab} setTab={props.setTab} handleSearch={props.handleFilter} search={props.search}/>
+      <Filter tab={props.tab} setTab={props.setTab} handleSearch={props.handleFilter} search={props.search} placeHolder={"Search Quiz"}/>
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div
           style={{

@@ -1,8 +1,13 @@
 const Test = require("../model/test");
 const Quiz = require("../model/quiz");
 const Result = require("../model/result");
+const moment=require('moment')
 const getResult = async (req, res) => {
-  const result = await Result.find({ sumbittedBy: req.user.userId });
+  const prevDate=moment().subtract(1,"month").toDate()
+  const result = await Result.find({ sumbittedBy: req.user.userId,createdAt:{
+    $gte:prevDate,
+    $lte:new Date()
+  } });
   var results = [];
   if(result){
     for(const element of result)

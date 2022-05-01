@@ -21,6 +21,7 @@ export default function QuizScreen() {
     if(res.status===200)
     {
       setquizs(res.data.questions)
+      setsearchArray(res.data.questions)
     }else{
       setquizs([])
       setmsg(res.data.msg)
